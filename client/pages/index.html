@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bikers Portal — Discover Rides, Host Group Journeys Across India</title>
+  <meta name="description" content="Bikers Portal connects motorcycle riders across India. Discover organized rides, host your own group journey, or find riders for your solo trip.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    /* ── Hero ───────────────────────────────────────────── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      min-height: 60vh;
+      position: relative;
+    }
+    @media (min-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr 1fr;
+        min-height: calc(100dvh - var(--nav-height-desktop));
+      }
+    }
+    .hero__text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-10) var(--space-4) var(--space-8);
+      order: 2;
+    }
+    @media (min-width: 640px)  { .hero__text { padding: var(--space-12) var(--space-8); order: 1; } }
+    @media (min-width: 1024px) { .hero__text { padding: var(--space-16) var(--space-12); order: 1; } }
+
+    .hero__eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: var(--text-caption);
+      font-weight: var(--fw-semi);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-4);
+    }
+    .hero__title { margin-bottom: var(--space-4); }
+    .hero__sub {
+      font-size: 1.125rem;
+      color: var(--color-text-muted);
+      max-width: 44ch;
+      margin-bottom: var(--space-8);
+      line-height: var(--lh-body);
+    }
+    .hero__cta {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    @media (min-width: 480px) {
+      .hero__cta { flex-direction: row; }
+    }
+
+    .hero__image {
+      position: relative;
+      overflow: hidden;
+      order: 1;
+      height: 55vw;
+      max-height: 480px;
+    }
+    @media (min-width: 1024px) {
+      .hero__image { height: auto; max-height: none; order: 2; }
+    }
+    .hero__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 60%;
+    }
+    .hero__image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(18,18,18,0.3));
+    }
+
+    /* ── Workflow Cards ─────────────────────────────────── */
+    .workflow-grid {
+      display: grid;
+      gap: var(--space-4);
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) { .workflow-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-6); } }
+    @media (min-width: 1024px) { .workflow-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .workflow-card {
+      padding: var(--space-8);
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+    }
+    .workflow-card__icon {
+      font-size: 2rem;
+      margin-bottom: var(--space-4);
+    }
+    .workflow-card h3 { margin-bottom: var(--space-3); }
+    .workflow-card p { color: var(--color-text-muted); font-size: var(--text-meta); margin-bottom: var(--space-6); }
+
+    /* ── Scroll Snap Rides Row (mobile) ────────────────── */
+    .rides-scroll {
+      display: flex;
+      gap: var(--space-4);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      padding-bottom: var(--space-2);
+    }
+    .rides-scroll::-webkit-scrollbar { display: none; }
+    .rides-scroll .ride-card {
+      flex: 0 0 80vw;
+      max-width: 320px;
+      scroll-snap-align: start;
+    }
+    @media (min-width: 640px) {
+      .rides-scroll { display: grid; grid-template-columns: repeat(2, 1fr); overflow: visible; }
+      .rides-scroll .ride-card { flex: none; max-width: none; }
+    }
+    @media (min-width: 1024px) {
+      .rides-scroll { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* Community highlights grid */
+    .community-grid {
+      display: grid;
+      gap: var(--space-4);
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) { .community-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .community-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .community-post-preview {
+      padding: var(--space-6);
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+    }
+    .community-post-preview__author {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+    .community-post-preview__text {
+      color: var(--color-text-muted);
+      font-size: var(--text-meta);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <!-- ── Navigation ───────────────────────────────────── -->
+  <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+    <a href="/" class="nav-logo" aria-label="Bikers Portal home">Bikers<span>Portal</span></a>
+    <div class="nav-links" role="list">
+      <a href="/discover-rides" role="listitem">Discover</a>
+      <a href="/host-ride" role="listitem" data-auth="required">Host a Ride</a>
+      <a href="/find-riders" role="listitem" data-auth="required">Find Riders</a>
+      <a href="/community" role="listitem">Community</a>
+    </div>
+    <div class="nav-actions">
+      <!-- Bell (logged in only) -->
+      <button class="btn-icon nav-bell" id="nav-bell-btn" aria-label="Notifications" data-auth="required" style="display:none">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="nav-bell__dot" id="nav-bell-dot"></span>
+      </button>
+      <!-- Guest actions -->
+      <div class="nav-links-guest" id="nav-guest" data-auth="guest">
+        <a href="/login" class="btn btn-secondary" id="nav-login-btn">Log in</a>
+        <a href="/register" class="btn btn-primary" id="nav-register-btn">Join free</a>
+      </div>
+      <!-- Avatar dropdown (logged in) -->
+      <div class="nav-dropdown" id="nav-dropdown" data-auth="required" style="display:none">
+        <button class="avatar avatar-sm" id="nav-avatar-btn" aria-label="Account menu" aria-expanded="false" aria-haspopup="true">
+          <span id="nav-avatar-initials">?</span>
+        </button>
+        <div class="nav-dropdown__menu" id="nav-dropdown-menu" role="menu">
+          <a href="/profile" role="menuitem">My Profile</a>
+          <a href="/my-rides" role="menuitem">My Rides</a>
+          <a href="/connections" role="menuitem">Connections</a>
+          <hr class="divider">
+          <button id="nav-logout-btn" role="menuitem">Log out</button>
+        </div>
+      </div>
+      <!-- Hamburger (tablet) -->
+      <button class="btn-icon nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Drawer overlay + drawer (tablet) -->
+  <div class="nav-drawer__overlay" id="nav-drawer-overlay" aria-hidden="true"></div>
+  <div class="nav-drawer" id="nav-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <button class="btn-icon" id="nav-drawer-close" aria-label="Close menu" style="align-self:flex-end">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <nav class="nav-drawer__links" aria-label="Drawer navigation">
+      <a href="/discover-rides">Discover</a>
+      <a href="/host-ride" data-auth="required">Host a Ride</a>
+      <a href="/find-riders" data-auth="required">Find Riders</a>
+      <a href="/community">Community</a>
+      <a href="/login" data-auth="guest">Log in</a>
+      <a href="/register" data-auth="guest">Join free</a>
+      <a href="/profile" data-auth="required">Profile</a>
+    </nav>
+  </div>
+
+  <!-- ── Main ─────────────────────────────────────────── -->
+  <main>
+    <!-- Hero -->
+    <section class="hero" aria-label="Welcome">
+      <div class="hero__text">
+        <p class="hero__eyebrow">India's Motorcycle Community</p>
+        <h1 class="hero__title">Ride together.<br>Go further.</h1>
+        <p class="hero__sub">Discover organized rides, host your own group journey, or find riders who share your destination. Built for India's roads.</p>
+        <div class="hero__cta">
+          <a href="/discover-rides" class="btn btn-primary btn-block" id="hero-discover-btn">Discover Rides</a>
+          <a href="/host-ride" class="btn btn-secondary btn-block" id="hero-host-btn">Host a Ride</a>
+        </div>
+      </div>
+      <div class="hero__image">
+        <img src="/assets/hero.jpg" alt="Group of motorcyclists on a mountain road in India" width="800" height="600" fetchpriority="high">
+        <div class="hero__image-overlay" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- 3 Workflows -->
+    <section class="surface section-padding" aria-labelledby="workflows-heading">
+      <div class="container">
+        <h2 id="workflows-heading" style="margin-bottom:var(--space-8)">How it works</h2>
+        <div class="workflow-grid">
+          <div class="workflow-card">
+            <div class="workflow-card__icon" aria-hidden="true">🧭</div>
+            <h3>Discover Rides</h3>
+            <p>Browse organized group rides across India. Filter by route, dates, expense type, and available seats. Join any ride that fits your schedule.</p>
+            <a href="/discover-rides" class="btn btn-primary" id="workflow-discover-btn">Browse Rides</a>
+          </div>
+          <div class="workflow-card">
+            <div class="workflow-card__icon" aria-hidden="true">🏍️</div>
+            <h3>Host Your Own Ride</h3>
+            <p>Plan a group ride, set the route with real Indian destinations, choose how expenses are handled, and manage who rides with you.</p>
+            <a href="/host-ride" class="btn btn-primary" id="workflow-host-btn">Host a Ride</a>
+          </div>
+          <div class="workflow-card">
+            <div class="workflow-card__icon" aria-hidden="true">👥</div>
+            <h3>Find Riders</h3>
+            <p>Planning a solo trip? Post your itinerary and get matched with other riders within 100 km whose routes and dates overlap with yours.</p>
+            <a href="/find-riders" class="btn btn-primary" id="workflow-find-btn">Find Riders</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upcoming Rides -->
+    <section class="section-padding" aria-labelledby="upcoming-rides-heading">
+      <div class="container">
+        <div class="flex-between" style="margin-bottom:var(--space-8)">
+          <h2 id="upcoming-rides-heading">Upcoming Rides</h2>
+          <a href="/discover-rides" class="btn btn-secondary" id="see-all-rides-btn" style="display:none">See all</a>
+        </div>
+        <div class="rides-scroll" id="home-rides-grid" aria-live="polite" aria-label="Upcoming rides">
+          <!-- JS populated -->
+          <div class="flex-center" style="grid-column:1/-1;padding:var(--space-16)">
+            <div class="spinner" role="status" aria-label="Loading rides"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Community Highlights -->
+    <section class="surface section-padding" aria-labelledby="community-heading">
+      <div class="container">
+        <div class="flex-between" style="margin-bottom:var(--space-8)">
+          <h2 id="community-heading">From the Community</h2>
+          <a href="/community" class="btn btn-secondary" id="see-community-btn">View Feed</a>
+        </div>
+        <div class="community-grid" id="home-posts-grid" aria-live="polite">
+          <div class="flex-center" style="grid-column:1/-1;padding:var(--space-12)">
+            <div class="spinner" role="status" aria-label="Loading posts"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── Footer ─────────────────────────────────────── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="nav-logo" style="margin-bottom:var(--space-4)">Bikers<span style="color:var(--color-text-muted);font-weight:400">Portal</span></div>
+          <p style="font-size:var(--text-meta);color:var(--color-text-muted);line-height:var(--lh-body)">Connecting motorcycle riders across India — one ride at a time.</p>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col__title">Explore</div>
+          <a href="/discover-rides">Discover Rides</a>
+          <a href="/host-ride">Host a Ride</a>
+          <a href="/find-riders">Find Riders</a>
+          <a href="/community">Community</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col__title">Account</div>
+          <a href="/register">Join free</a>
+          <a href="/login">Log in</a>
+          <a href="/profile">My Profile</a>
+          <a href="/my-rides">My Rides</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col__title">About</div>
+          <a href="#">Safety Tips</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Bikers Portal. All rights reserved.</span>
+        <span>Made for riders, by riders 🏍️</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── Bottom Tab Bar (mobile) ────────────────────── -->
+  <nav class="tab-bar" aria-label="Main navigation tabs">
+    <a href="/discover-rides" class="tab-bar__item" data-tab="discover" aria-label="Discover rides">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span>Discover</span>
+    </a>
+    <a href="/host-ride" class="tab-bar__item" data-tab="host" aria-label="Host a ride">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+      <span>Host</span>
+    </a>
+    <a href="/find-riders" class="tab-bar__item" data-tab="trips" aria-label="Find riders">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>Trips</span>
+    </a>
+    <a href="/community" class="tab-bar__item" data-tab="community" aria-label="Community">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span>Community</span>
+    </a>
+    <a href="/profile" class="tab-bar__item" data-tab="profile" aria-label="My profile">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <!-- Toast region -->
+  <div class="toast-region" id="toast-region" role="status" aria-live="polite" aria-atomic="false"></div>
+
+  <script type="module" src="/js/nav.js"></script>
+  <script type="module" src="/js/pages/home.js"></script>
+</body>
+</html>
