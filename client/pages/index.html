@@ -157,12 +157,12 @@
 <body>
   <!-- ── Navigation ───────────────────────────────────── -->
   <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
-    <a href="/" class="nav-logo" aria-label="Bikers Portal home">Bikers<span>Portal</span></a>
+    <a href="index.html" class="nav-logo" aria-label="Bikers Portal home">Bikers<span>Portal</span></a>
     <div class="nav-links" role="list">
-      <a href="/discover-rides" role="listitem">Discover</a>
-      <a href="/host-ride" role="listitem" data-auth="required">Host a Ride</a>
-      <a href="/find-riders" role="listitem" data-auth="required">Find Riders</a>
-      <a href="/community" role="listitem">Community</a>
+      <a href="discover-rides.html" role="listitem">Discover</a>
+      <a href="host-ride.html" role="listitem" data-auth="required">Host a Ride</a>
+      <a href="find-riders.html" role="listitem" data-auth="required">Find Riders</a>
+      <a href="community.html" role="listitem">Community</a>
     </div>
     <div class="nav-actions">
       <!-- Bell (logged in only) -->
@@ -172,8 +172,8 @@
       </button>
       <!-- Guest actions -->
       <div class="nav-links-guest" id="nav-guest" data-auth="guest">
-        <a href="/login" class="btn btn-secondary" id="nav-login-btn">Log in</a>
-        <a href="/register" class="btn btn-primary" id="nav-register-btn">Join free</a>
+        <a href="login.html" class="btn btn-secondary" id="nav-login-btn">Log in</a>
+        <a href="register.html" class="btn btn-primary" id="nav-register-btn">Join free</a>
       </div>
       <!-- Avatar dropdown (logged in) -->
       <div class="nav-dropdown" id="nav-dropdown" data-auth="required" style="display:none">
@@ -181,9 +181,9 @@
           <span id="nav-avatar-initials">?</span>
         </button>
         <div class="nav-dropdown__menu" id="nav-dropdown-menu" role="menu">
-          <a href="/profile" role="menuitem">My Profile</a>
-          <a href="/my-rides" role="menuitem">My Rides</a>
-          <a href="/connections" role="menuitem">Connections</a>
+          <a href="profile.html" role="menuitem">My Profile</a>
+          <a href="my-rides.html" role="menuitem">My Rides</a>
+          <a href="connections.html" role="menuitem">Connections</a>
           <hr class="divider">
           <button id="nav-logout-btn" role="menuitem">Log out</button>
         </div>
@@ -202,13 +202,13 @@
       <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
     <nav class="nav-drawer__links" aria-label="Drawer navigation">
-      <a href="/discover-rides">Discover</a>
-      <a href="/host-ride" data-auth="required">Host a Ride</a>
-      <a href="/find-riders" data-auth="required">Find Riders</a>
-      <a href="/community">Community</a>
-      <a href="/login" data-auth="guest">Log in</a>
-      <a href="/register" data-auth="guest">Join free</a>
-      <a href="/profile" data-auth="required">Profile</a>
+      <a href="discover-rides.html">Discover</a>
+      <a href="host-ride.html" data-auth="required">Host a Ride</a>
+      <a href="find-riders.html" data-auth="required">Find Riders</a>
+      <a href="community.html">Community</a>
+      <a href="login.html" data-auth="guest">Log in</a>
+      <a href="register.html" data-auth="guest">Join free</a>
+      <a href="profile.html" data-auth="required">Profile</a>
     </nav>
   </div>
 
@@ -221,12 +221,12 @@
         <h1 class="hero__title">Ride together.<br>Go further.</h1>
         <p class="hero__sub">Discover organized rides, host your own group journey, or find riders who share your destination. Built for India's roads.</p>
         <div class="hero__cta">
-          <a href="/discover-rides" class="btn btn-primary btn-block" id="hero-discover-btn">Discover Rides</a>
-          <a href="/host-ride" class="btn btn-secondary btn-block" id="hero-host-btn">Host a Ride</a>
+          <a href="discover-rides.html" class="btn btn-primary btn-block" id="hero-discover-btn">Discover Rides</a>
+          <a href="host-ride.html" class="btn btn-secondary btn-block" id="hero-host-btn">Host a Ride</a>
         </div>
       </div>
       <div class="hero__image">
-        <img src="/assets/hero.jpg" alt="Group of motorcyclists on a mountain road in India" width="800" height="600" fetchpriority="high">
+        <img src="../assets/hero.jpg" alt="Group of motorcyclists on a mountain road in India" width="800" height="600" fetchpriority="high">
         <div class="hero__image-overlay" aria-hidden="true"></div>
       </div>
     </section>
@@ -240,19 +240,19 @@
             <div class="workflow-card__icon" aria-hidden="true">🧭</div>
             <h3>Discover Rides</h3>
             <p>Browse organized group rides across India. Filter by route, dates, expense type, and available seats. Join any ride that fits your schedule.</p>
-            <a href="/discover-rides" class="btn btn-primary" id="workflow-discover-btn">Browse Rides</a>
+            <a href="discover-rides.html" class="btn btn-primary" id="workflow-discover-btn">Browse Rides</a>
           </div>
           <div class="workflow-card">
             <div class="workflow-card__icon" aria-hidden="true">🏍️</div>
             <h3>Host Your Own Ride</h3>
             <p>Plan a group ride, set the route with real Indian destinations, choose how expenses are handled, and manage who rides with you.</p>
-            <a href="/host-ride" class="btn btn-primary" id="workflow-host-btn">Host a Ride</a>
+            <a href="host-ride.html" class="btn btn-primary" id="workflow-host-btn">Host a Ride</a>
           </div>
           <div class="workflow-card">
             <div class="workflow-card__icon" aria-hidden="true">👥</div>
             <h3>Find Riders</h3>
             <p>Planning a solo trip? Post your itinerary and get matched with other riders within 100 km whose routes and dates overlap with yours.</p>
-            <a href="/find-riders" class="btn btn-primary" id="workflow-find-btn">Find Riders</a>
+            <a href="find-riders.html" class="btn btn-primary" id="workflow-find-btn">Find Riders</a>
           </div>
         </div>
       </div>
@@ -263,7 +263,7 @@
       <div class="container">
         <div class="flex-between" style="margin-bottom:var(--space-8)">
           <h2 id="upcoming-rides-heading">Upcoming Rides</h2>
-          <a href="/discover-rides" class="btn btn-secondary" id="see-all-rides-btn" style="display:none">See all</a>
+          <a href="discover-rides.html" class="btn btn-secondary" id="see-all-rides-btn" style="display:none">See all</a>
         </div>
         <div class="rides-scroll" id="home-rides-grid" aria-live="polite" aria-label="Upcoming rides">
           <!-- JS populated -->
@@ -279,7 +279,7 @@
       <div class="container">
         <div class="flex-between" style="margin-bottom:var(--space-8)">
           <h2 id="community-heading">From the Community</h2>
-          <a href="/community" class="btn btn-secondary" id="see-community-btn">View Feed</a>
+          <a href="community.html" class="btn btn-secondary" id="see-community-btn">View Feed</a>
         </div>
         <div class="community-grid" id="home-posts-grid" aria-live="polite">
           <div class="flex-center" style="grid-column:1/-1;padding:var(--space-12)">
@@ -300,17 +300,17 @@
         </div>
         <div class="footer-col">
           <div class="footer-col__title">Explore</div>
-          <a href="/discover-rides">Discover Rides</a>
-          <a href="/host-ride">Host a Ride</a>
-          <a href="/find-riders">Find Riders</a>
-          <a href="/community">Community</a>
+          <a href="discover-rides.html">Discover Rides</a>
+          <a href="host-ride.html">Host a Ride</a>
+          <a href="find-riders.html">Find Riders</a>
+          <a href="community.html">Community</a>
         </div>
         <div class="footer-col">
           <div class="footer-col__title">Account</div>
-          <a href="/register">Join free</a>
-          <a href="/login">Log in</a>
-          <a href="/profile">My Profile</a>
-          <a href="/my-rides">My Rides</a>
+          <a href="register.html">Join free</a>
+          <a href="login.html">Log in</a>
+          <a href="profile.html">My Profile</a>
+          <a href="my-rides.html">My Rides</a>
         </div>
         <div class="footer-col">
           <div class="footer-col__title">About</div>
@@ -329,23 +329,23 @@
 
   <!-- ── Bottom Tab Bar (mobile) ────────────────────── -->
   <nav class="tab-bar" aria-label="Main navigation tabs">
-    <a href="/discover-rides" class="tab-bar__item" data-tab="discover" aria-label="Discover rides">
+    <a href="discover-rides.html" class="tab-bar__item" data-tab="discover" aria-label="Discover rides">
       <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <span>Discover</span>
     </a>
-    <a href="/host-ride" class="tab-bar__item" data-tab="host" aria-label="Host a ride">
+    <a href="host-ride.html" class="tab-bar__item" data-tab="host" aria-label="Host a ride">
       <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
       <span>Host</span>
     </a>
-    <a href="/find-riders" class="tab-bar__item" data-tab="trips" aria-label="Find riders">
+    <a href="find-riders.html" class="tab-bar__item" data-tab="trips" aria-label="Find riders">
       <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       <span>Trips</span>
     </a>
-    <a href="/community" class="tab-bar__item" data-tab="community" aria-label="Community">
+    <a href="community.html" class="tab-bar__item" data-tab="community" aria-label="Community">
       <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       <span>Community</span>
     </a>
-    <a href="/profile" class="tab-bar__item" data-tab="profile" aria-label="My profile">
+    <a href="profile.html" class="tab-bar__item" data-tab="profile" aria-label="My profile">
       <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span>Profile</span>
     </a>
@@ -354,7 +354,7 @@
   <!-- Toast region -->
   <div class="toast-region" id="toast-region" role="status" aria-live="polite" aria-atomic="false"></div>
 
-  <script type="module" src="/js/nav.js"></script>
-  <script type="module" src="/js/pages/home.js"></script>
+  <script type="module" src="../js/nav.js"></script>
+  <script type="module" src="../js/pages/home.js"></script>
 </body>
 </html>
