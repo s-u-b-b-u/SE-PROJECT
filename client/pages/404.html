@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found — Bikers Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <style>
+    .not-found-wrap {
+      min-height: calc(80vh - var(--nav-height-desktop));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--space-8);
+    }
+    .not-found-num {
+      font-size: clamp(5rem, 4rem + 6vw, 10rem);
+      font-weight: var(--fw-bold);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--color-divider);
+    }
+    .not-found-title {
+      margin-top: var(--space-4);
+      margin-bottom: var(--space-2);
+    }
+    .not-found-desc {
+      color: var(--color-text-muted);
+      max-width: 44ch;
+      margin-bottom: var(--space-8);
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+    <a href="/" class="nav-logo" aria-label="Bikers Portal home">Bikers<span>Portal</span></a>
+    <div class="nav-links" role="list">
+      <a href="/discover-rides" role="listitem">Discover</a>
+      <a href="/host-ride" role="listitem" data-auth="required">Host a Ride</a>
+      <a href="/find-riders" role="listitem" data-auth="required">Find Riders</a>
+      <a href="/community" role="listitem">Community</a>
+    </div>
+    <div class="nav-actions">
+      <div class="nav-links-guest" id="nav-guest" data-auth="guest">
+        <a href="/login" class="btn btn-secondary" id="nav-login-btn">Log in</a>
+        <a href="/register" class="btn btn-primary" id="nav-register-btn">Join free</a>
+      </div>
+      <div class="nav-dropdown" id="nav-dropdown" data-auth="required" style="display:none">
+        <button class="avatar avatar-sm" id="nav-avatar-btn" aria-label="Account menu" aria-expanded="false" aria-haspopup="true">
+          <span id="nav-avatar-initials">?</span>
+        </button>
+        <div class="nav-dropdown__menu" id="nav-dropdown-menu" role="menu">
+          <a href="/profile" role="menuitem">My Profile</a>
+          <a href="/connections" role="menuitem">Connections</a>
+          <hr class="divider">
+          <button id="nav-logout-btn" role="menuitem">Log out</button>
+        </div>
+      </div>
+      <button class="btn-icon nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Drawer overlay + drawer -->
+  <div class="nav-drawer__overlay" id="nav-drawer-overlay" aria-hidden="true"></div>
+  <div class="nav-drawer" id="nav-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <button class="btn-icon" id="nav-drawer-close" aria-label="Close menu" style="align-self:flex-end">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <nav class="nav-drawer__links" aria-label="Drawer navigation">
+      <a href="/discover-rides">Discover</a>
+      <a href="/host-ride" data-auth="required">Host a Ride</a>
+      <a href="/find-riders" data-auth="required">Find Riders</a>
+      <a href="/community">Community</a>
+      <a href="/login" data-auth="guest">Log in</a>
+      <a href="/register" data-auth="guest">Join free</a>
+      <a href="/profile" data-auth="required">Profile</a>
+    </nav>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="not-found-wrap">
+        <div class="not-found-num">404</div>
+        <h1 class="not-found-title">Lost on the road?</h1>
+        <p class="not-found-desc">We couldn't find the page or route you were looking for. Let's get you back on track.</p>
+        <a href="/" class="btn btn-primary">Back to Homepage</a>
+      </div>
+    </div>
+  </main>
+
+  <nav class="tab-bar" aria-label="Main navigation tabs">
+    <a href="/discover-rides" class="tab-bar__item" data-tab="discover"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><span>Discover</span></a>
+    <a href="/host-ride" class="tab-bar__item" data-tab="host"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg><span>Host</span></a>
+    <a href="/find-riders" class="tab-bar__item" data-tab="trips"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Trips</span></a>
+    <a href="/community" class="tab-bar__item" data-tab="community"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Community</span></a>
+    <a href="/profile" class="tab-bar__item" data-tab="profile"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></a>
+  </nav>
+
+  <script type="module" src="/js/nav.js"></script>
+</body>
+</html>

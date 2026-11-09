@@ -1,6 +1,10 @@
 /**
  * toast.js — Toast notification system
  * Bikers Portal shared module
+ *
+ * Exports:
+ *   showToast(message, duration)        — raw function
+ *   toast.success(msg) / .error(msg) / .info(msg) / .show(msg, dur)
  */
 
 // ---------------------------------------------------------------------------
@@ -44,29 +48,50 @@ export function showToast(message, duration = 3500) {
   const region = getRegion();
 
   // Create toast element
-  const toast = document.createElement('div');
-  toast.className = TOAST_CLASS;
-  toast.textContent = message;
-  region.appendChild(toast);
+  const toastEl = document.createElement('div');
+  toastEl.className = TOAST_CLASS;
+  toastEl.textContent = message;
+  region.appendChild(toastEl);
 
-  // Force a reflow so the initial state is painted before we start any
-  // enter-animation (if CSS handles it via e.g. opacity transition).
-  void toast.offsetHeight;
+  // Force a reflow so the initial state is painted before any enter-animation
+  void toastEl.offsetHeight;
 
   // Schedule removal: add .leaving LEAVE_TRANSITION_MS before the DOM removal
-  // so CSS can animate the exit transition.
   const removeTimer = setTimeout(() => {
-    toast.classList.add(LEAVING_CLASS);
-
+    toastEl.classList.add(LEAVING_CLASS);
     setTimeout(() => {
-      toast.remove();
+      toastEl.remove();
     }, LEAVE_TRANSITION_MS);
   }, duration - LEAVE_TRANSITION_MS);
 
   // Allow the toast to be dismissed early by clicking it.
-  toast.addEventListener('click', () => {
+  toastEl.addEventListener('click', () => {
     clearTimeout(removeTimer);
-    toast.classList.add(LEAVING_CLASS);
-    setTimeout(() => toast.remove(), LEAVE_TRANSITION_MS);
+    toastEl.classList.add(LEAVING_CLASS);
+    setTimeout(() => toastEl.remove(), LEAVE_TRANSITION_MS);
   });
 }
+
+/**
+ * Convenience object for semantic toast calls:
+ *   toast.success('Ride published!')
+ *   toast.error('Something went wrong.')
+ *   toast.info('Trip closed.')
+ *   toast.show('Any message', 5000)
+ */
+export const toast = {
+  success(message, duration = 3500) {
+    showToast(message, duration);
+  },
+  error(message, duration = 4500) {
+    showToast(message, duration);
+  },
+  info(message, duration = 3500) {
+    showToast(message, duration);
+  },
+  show(message, duration = 3500) {
+    showToast(message, duration);
+  },
+};
+
+export default toast;

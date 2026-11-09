@@ -1,0 +1,115 @@
+/* Ride Detail Page Styles */
+.ride-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  padding-block: var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  .ride-detail-layout {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
+}
+
+.ride-header-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ride-action-box {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  position: sticky;
+  top: calc(var(--nav-height-desktop) + var(--space-4));
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: var(--space-6);
+  margin-block: var(--space-4);
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 11px;
+  width: 2px;
+  background: var(--color-divider);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: var(--space-6);
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-node {
+  position: absolute;
+  left: -19px;
+  top: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 3px solid var(--color-action);
+}
+
+.timeline-item.start .timeline-node {
+  background: var(--color-action);
+}
+
+.timeline-item.end .timeline-node {
+  border-color: var(--color-text);
+  background: var(--color-text);
+}
+
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.timeline-title {
+  font-weight: var(--fw-semi);
+  font-size: var(--text-body);
+}
+
+.timeline-date {
+  font-size: var(--text-meta);
+  color: var(--color-text-muted);
+}
+
+.participant-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.participant-row:last-child {
+  border-bottom: none;
+}
+
+.rating-stars {
+  color: var(--color-text);
+  font-size: 1.125rem;
+  letter-spacing: 2px;
+}

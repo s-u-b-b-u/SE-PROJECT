@@ -85,14 +85,18 @@ export function createModal(title, contentHtml, footerHtml = '') {
   overlay.setAttribute('aria-label', title);
 
   const panel = document.createElement('div');
-  panel.className = 'modal-panel';
+  panel.className = 'modal modal-panel';
+
+  const dragHandle = document.createElement('div');
+  dragHandle.className = 'modal__drag-handle';
+  panel.appendChild(dragHandle);
 
   // Header
   const header = document.createElement('div');
-  header.className = 'modal-header';
+  header.className = 'modal__header modal-header';
 
   const heading = document.createElement('h2');
-  heading.className = 'modal-title';
+  heading.className = 'modal__title modal-title';
   heading.textContent = title;
 
   const closeBtn = document.createElement('button');
@@ -172,3 +176,35 @@ export function createModal(title, contentHtml, footerHtml = '') {
 
   return controller;
 }
+
+let activeModalInstance = null;
+
+export const modal = {
+  /**
+   * Opens a modal dialog with optional title, content HTML, and onOpen hook.
+   * @param {{ title: string, content: string, footer?: string, onOpen?: (el: HTMLElement) => void }} options
+   */
+  open({ title, content, footer = '', onOpen } = {}) {
+    if (activeModalInstance) {
+      activeModalInstance.destroy();
+      activeModalInstance = null;
+    }
+    const controller = createModal(title, content, footer);
+    activeModalInstance = controller;
+    controller.open();
+    if (typeof onOpen === 'function') {
+      onOpen(controller.el);
+    }
+    return controller;
+  },
+
+  /** Closes any currently active modal. */
+  close() {
+    if (activeModalInstance) {
+      activeModalInstance.close();
+      activeModalInstance.destroy();
+      activeModalInstance = null;
+    }
+  },
+};
+

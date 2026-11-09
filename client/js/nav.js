@@ -2,7 +2,15 @@
  * nav.js — Site-wide navigation initialisation
  * Bikers Portal shared module
  *
- * Call initNav() on DOMContentLoaded from every page.
+ * Automatically handles:
+ *   - Active link/tab highlighting
+ *   - Hamburger → slide-in drawer (tablet)
+ *   - Avatar dropdown menu (desktop)
+ *   - Scroll-aware top nav border
+ *   - Logout button wiring
+ *   - Auth-dependent show/hide via data-auth="required|guest"
+ *   - Avatar initials from user display_name
+ *   - Notification bell dot from unread count
  */
 
 import { auth, api } from './api.js';
@@ -37,44 +45,47 @@ function initActiveLinks() {
 
 /** Mark active tab-bar item. */
 function initTabBar() {
-  document.querySelectorAll('.tab-bar__item[href], .tab-bar__item a[href]').forEach((el) => {
-    const href = el.tagName === 'A' ? el.getAttribute('href') : el.querySelector('a')?.getAttribute('href');
+  document.querySelectorAll('.tab-bar .tab-bar__item').forEach((el) => {
+    const href = el.getAttribute('href') || el.querySelector('a')?.getAttribute('href');
     if (href && isCurrentPage(href)) {
-      // Support both <a class="tab-bar__item"> and wrapper <div> patterns
-      const item = el.closest('.tab-bar__item') || el;
-      item.classList.add('active');
-      item.setAttribute('aria-current', 'page');
+      el.classList.add('active');
+      el.setAttribute('aria-current', 'page');
     }
   });
 }
 
 /** Hamburger → nav drawer + overlay. */
 function initDrawer() {
-  const hamburger = document.querySelector('.nav-hamburger, [data-nav-toggle]');
-  const drawer    = document.querySelector('.nav-drawer');
-  const overlay   = document.querySelector('.nav-drawer__overlay');
+  const hamburger = document.getElementById('nav-hamburger') ||
+                    document.querySelector('.nav-hamburger, [data-nav-toggle]');
+  const drawer    = document.getElementById('nav-drawer') ||
+                    document.querySelector('.nav-drawer');
+  const overlay   = document.getElementById('nav-drawer-overlay') ||
+                    document.querySelector('.nav-drawer__overlay');
+  const closeBtn  = document.getElementById('nav-drawer-close');
 
   if (!hamburger || !drawer) return;
 
   function openDrawer() {
-    drawer.classList.add('is-open');
-    overlay?.classList.add('is-visible');
+    drawer.classList.add('open');
+    overlay?.classList.add('open');
     hamburger.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
   }
 
   function closeDrawer() {
-    drawer.classList.remove('is-open');
-    overlay?.classList.remove('is-visible');
+    drawer.classList.remove('open');
+    overlay?.classList.remove('open');
     hamburger.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   }
 
   hamburger.addEventListener('click', () => {
-    const isOpen = drawer.classList.contains('is-open');
+    const isOpen = drawer.classList.contains('open');
     isOpen ? closeDrawer() : openDrawer();
   });
 
+  closeBtn?.addEventListener('click', closeDrawer);
   overlay?.addEventListener('click', closeDrawer);
 
   // Close drawer when any link inside it is clicked
@@ -84,36 +95,46 @@ function initDrawer() {
 
   // Close on Escape
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && drawer.classList.contains('is-open')) closeDrawer();
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
   });
 }
 
 /** Avatar dropdown toggle. */
 function initDropdown() {
-  const trigger  = document.querySelector('.nav-avatar, [data-dropdown-toggle]');
-  const dropdown = document.querySelector('.nav-dropdown__menu');
+  // Support both: button#nav-avatar-btn and .nav-avatar / [data-dropdown-toggle]
+  const trigger  = document.getElementById('nav-avatar-btn') ||
+                   document.querySelector('.nav-avatar, [data-dropdown-toggle]');
+  const dropdown = document.getElementById('nav-dropdown-menu') ||
+                   document.querySelector('.nav-dropdown__menu');
 
   if (!trigger || !dropdown) return;
 
+  // Initial hidden state — set via attribute (CSS .open shows it)
+  if (!dropdown.classList.contains('open')) {
+    dropdown.style.display = 'none';
+  }
+
   function openDropdown() {
-    dropdown.removeAttribute('hidden');
+    dropdown.style.display = '';
+    dropdown.classList.add('open');
     trigger.setAttribute('aria-expanded', 'true');
   }
 
   function closeDropdown() {
-    dropdown.setAttribute('hidden', '');
+    dropdown.classList.remove('open');
+    dropdown.style.display = 'none';
     trigger.setAttribute('aria-expanded', 'false');
   }
 
   trigger.addEventListener('click', (e) => {
     e.stopPropagation();
-    const isOpen = !dropdown.hasAttribute('hidden');
+    const isOpen = dropdown.classList.contains('open');
     isOpen ? closeDropdown() : openDropdown();
   });
 
   // Close when clicking anywhere outside
   document.addEventListener('click', (e) => {
-    if (!dropdown.hasAttribute('hidden') &&
+    if (dropdown.classList.contains('open') &&
         !dropdown.contains(e.target) &&
         !trigger.contains(e.target)) {
       closeDropdown();
@@ -128,7 +149,8 @@ function initDropdown() {
 
 /** Scroll-aware top nav (adds .scrolled when page is scrolled). */
 function initScrollBehaviour() {
-  const nav = document.querySelector('.site-nav');
+  const nav = document.getElementById('site-nav') ||
+              document.querySelector('.site-nav');
   if (!nav) return;
 
   function update() {
@@ -141,7 +163,9 @@ function initScrollBehaviour() {
 
 /** Wire up logout button(s). */
 function initLogout() {
-  document.querySelectorAll('[data-logout], .nav-logout').forEach((btn) => {
+  // Support id="nav-logout-btn", data-logout attribute, or .nav-logout class
+  const selectors = '#nav-logout-btn, [data-logout], .nav-logout';
+  document.querySelectorAll(selectors).forEach((btn) => {
     btn.addEventListener('click', async (e) => {
       e.preventDefault();
       await auth.logout();
@@ -159,33 +183,30 @@ async function initAuthVisibility(user) {
     const rule = el.dataset.auth;
     if (rule === 'required') {
       el.hidden = !user;
+      // Also clear inline display:none that may have been set for initial render
+      if (user && el.style.display === 'none') el.style.display = '';
     } else if (rule === 'guest') {
       el.hidden = !!user;
+      if (!user && el.style.display === 'none') el.style.display = '';
     }
   });
 
-  // Populate avatar image / initials if the nav has a placeholder
+  // Populate avatar initials
   if (user) {
-    const avatarImg = document.querySelector('.nav-avatar__img');
-    const avatarInitials = document.querySelector('.nav-avatar__initials');
+    // Try id-based selector first (matches the HTML), then class-based fallback
+    const initialsEl = document.getElementById('nav-avatar-initials') ||
+                       document.querySelector('.nav-avatar__initials');
 
-    if (avatarImg) {
-      if (user.avatar_url) {
-        avatarImg.src = user.avatar_url;
-        avatarImg.alt = user.name || 'Your avatar';
-        avatarImg.hidden = false;
-        if (avatarInitials) avatarInitials.hidden = true;
-      }
-    } else if (avatarInitials && user.name) {
-      const parts = user.name.trim().split(/\s+/);
-      avatarInitials.textContent = parts.length >= 2
+    if (initialsEl && user.display_name) {
+      const parts = user.display_name.trim().split(/\s+/);
+      initialsEl.textContent = parts.length >= 2
         ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
         : parts[0].slice(0, 2).toUpperCase();
     }
 
-    // Set display name text nodes
+    // Set any user name text nodes (optional elements)
     document.querySelectorAll('.nav-user-name').forEach((el) => {
-      el.textContent = user.name || user.username || '';
+      el.textContent = user.display_name || '';
     });
   }
 }
@@ -194,17 +215,30 @@ async function initAuthVisibility(user) {
 async function initNotificationBell(user) {
   if (!user) return;
 
-  const dot = document.querySelector('.nav-bell__dot');
+  const dot = document.getElementById('nav-bell-dot') ||
+              document.querySelector('.nav-bell__dot');
   if (!dot) return;
+
+  // Show the bell button itself
+  const bellBtn = document.getElementById('nav-bell-btn') ||
+                  document.querySelector('.nav-bell');
+  if (bellBtn && bellBtn.style.display === 'none') {
+    bellBtn.style.display = '';
+  }
 
   try {
     const data = await api.get('/notifications/unread-count');
     const count = data?.count ?? data?.unread_count ?? 0;
-    dot.hidden = count === 0;
-    dot.textContent = count > 9 ? '9+' : count > 0 ? String(count) : '';
+    if (count > 0) {
+      dot.classList.add('show');
+      dot.textContent = count > 9 ? '9+' : String(count);
+    } else {
+      dot.classList.remove('show');
+      dot.textContent = '';
+    }
   } catch {
     // Non-critical — silently ignore
-    dot.hidden = true;
+    dot.classList.remove('show');
   }
 }
 
@@ -214,11 +248,8 @@ async function initNotificationBell(user) {
 
 /**
  * Initialise all navigation behaviour.
- * Call once per page on DOMContentLoaded.
- *
- * @example
- * import { initNav } from '/js/nav.js';
- * document.addEventListener('DOMContentLoaded', initNav);
+ * Automatically called on DOMContentLoaded from each page via:
+ *   <script type="module" src="/js/nav.js"></script>
  */
 export async function initNav() {
   // Run sync initialisers immediately
@@ -235,4 +266,11 @@ export async function initNav() {
     initAuthVisibility(user),
     initNotificationBell(user),
   ]);
+}
+
+// Auto-initialise when the DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initNav);
+} else {
+  initNav();
 }

@@ -1,0 +1,217 @@
+/* =========================================================
+   Bikers Portal — Global Reset, Base Styles & Typography
+   ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import './tokens.css';
+
+/* ── Reset ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  /* Reserve space for fixed nav at top + tab bar at bottom on mobile */
+  padding-top: var(--nav-height-mobile);
+  padding-bottom: var(--tab-bar-height);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 640px) {
+  body {
+    padding-top: var(--nav-height-tablet);
+    padding-bottom: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    padding-top: var(--nav-height-desktop);
+  }
+}
+
+main {
+  flex: 1;
+}
+
+img, video, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font: inherit;
+}
+
+/* ── Typography ─────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  line-height: var(--lh-heading);
+  color: var(--color-text);
+}
+
+h1 { font-size: var(--text-hero); font-weight: var(--fw-bold); }
+h2 { font-size: var(--text-section); font-weight: var(--fw-semi); }
+h3 { font-size: var(--text-card); font-weight: var(--fw-semi); }
+h4 { font-size: var(--text-body); font-weight: var(--fw-semi); }
+
+p {
+  margin-bottom: var(--space-4);
+}
+p:last-child {
+  margin-bottom: 0;
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+  font-size: var(--text-meta);
+}
+
+.text-caption {
+  color: var(--color-text-muted);
+  font-size: var(--text-caption);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── Layout Containers ───────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--max-content);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-inline: var(--space-8);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-inline: var(--space-12);
+  }
+}
+
+.section-padding {
+  padding-block: var(--space-8);
+}
+
+@media (min-width: 640px) {
+  .section-padding {
+    padding-block: var(--space-12);
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding-block: var(--space-16);
+  }
+}
+
+.surface {
+  background: var(--color-surface);
+}
+
+/* ── Grid ─────────────────────────────────────────────────── */
+.grid-cards {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .grid-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+  }
+}
+
+@media (min-width: 1440px) {
+  .grid-cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ── Utility ─────────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+.stack { display: flex; flex-direction: column; }
+
+.divider {
+  height: 1px;
+  background: var(--color-divider);
+  border: none;
+  margin-block: var(--space-4);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-action);
+  outline-offset: 2px;
+}
